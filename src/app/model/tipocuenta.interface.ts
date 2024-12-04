@@ -4,6 +4,6 @@ export interface ITipocuenta {
   creditoodebito: number;
   comentarios: string;
   realonominal: number;
-  cuentas?: number;
-  grupotipocuentas?: number;
+  cuentas?: any;
+  grupotipocuentas?: any;
 }

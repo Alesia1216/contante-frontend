@@ -11,7 +11,7 @@ import { httpOptions, serverURL } from '../environment/environment';
 export class CuentaService {
   serverURL: string = serverURL + '/cuenta';
 
-  constructor(private oHttp: HttpClient) {}
+  constructor(private oHttp: HttpClient) { }
 
   getPage(
     page: number,
@@ -84,6 +84,10 @@ export class CuentaService {
   }
 
   create(oCuenta: ICuenta): Observable<ICuenta> {
+    //hack para evitar error de tipo en el servidor
+    oCuenta.tipocuenta.grupotipocuentas = [];
+    oCuenta.tipocuenta.cuentas = [];  
+    //----
     let URL: string = '';
     URL += this.serverURL;
     return this.oHttp.put<ICuenta>(URL, oCuenta);
