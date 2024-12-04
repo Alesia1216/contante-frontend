@@ -64,10 +64,10 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
     this.oAsientoForm?.markAllAsTouched();
     this.oPrimeconfig.setTranslation(CALENDAR_ES);
 
-    this.oAsientoForm?.controls['id_tipoasiento'].valueChanges.subscribe(change => {
-      if (change) {
+    this.oAsientoForm?.controls['tipoasiento'].valueChanges.subscribe(change => {
+      if (change.id) {
         // obtener el objeto tipocuenta del servidor
-        this.oTipoasientoService.get(change).subscribe({
+        this.oTipoasientoService.get(change.id).subscribe({
           next: (oTipoasiento: ITipoasiento) => {
             this.oTipoasiento = oTipoasiento;
           },
@@ -75,7 +75,7 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
             console.log(err);
             this.oTipoasiento = {} as ITipoasiento;
             // marcar el campo como inválido
-            this.oAsientoForm?.controls['id_tipoasiento'].setErrors({
+            this.oAsientoForm?.controls['tipoasiento'].setErrors({
               invalid: true,
             });
           }
@@ -101,9 +101,32 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
       momentstamp: new FormControl('', [
         Validators.required
       ]),
-      id_tipoasiento: new FormControl('',[Validators.required]),
-      id_usuario: new FormControl('',[Validators.required]),
-      id_periodo: new FormControl('',[Validators.required]),
+      //tipoasiento: new FormControl('',[Validators.required]),
+      tipoasiento: new FormControl({
+        id: new FormControl('', Validators.required),
+        descripcion: new FormControl(''),
+        asientos: new FormControl([]),
+        grupotipoasientos: new FormControl([])
+      }),
+      //usuario: new FormControl('',[Validators.required]),
+      usuario: new FormControl({
+        id: new FormControl('', Validators.required),
+        nombre: new FormControl(''),
+        apellido1: new FormControl(''),
+        apellido2: new FormControl(''),
+        email: new FormControl(''),
+        tipousuario: new FormControl(''),
+        asientos: new FormControl([])
+      }),
+      //periodo: new FormControl('',[Validators.required]),
+      periodo: new FormControl({
+        id: new FormControl('', Validators.required),
+        anyo: new FormControl(''),
+        descripcion: new FormControl(''),
+        comentarios: new FormControl(''),
+        cerrado: new FormControl(''),
+        asientos: new FormControl([]),
+      })
 
     });
   }
@@ -113,9 +136,29 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
     this.oAsientoForm?.controls['comentarios'].setValue('');
     this.oAsientoForm?.controls['inventariable'].setValue('');
     this.oAsientoForm?.controls['momentstamp'].setValue('');
-    this.oAsientoForm?.controls['id_tipoasiento'].setValue('');
-    this.oAsientoForm?.controls['id_usuario'].setValue('');
-    this.oAsientoForm?.controls['id_periodo'].setValue('');
+    this.oAsientoForm?.controls['tipoasiento'].setValue({
+      id: null,
+      descripcion:  null,
+      asientos: null,
+      grupotipoasientos:  null,
+    });
+    this.oAsientoForm?.controls['usuario'].setValue({
+        id:  null,
+        nombre:  null,
+        apellido1: null,
+        apellido2:  null,
+        email:  null,
+        tipousuario:  null,
+        asientos:  null,
+    });
+    this.oAsientoForm?.controls['periodo'].setValue({
+        id:  null,
+        anyo:  null,
+        descripcion: null, 
+        comentarios:  null,
+        cerrado:  null,
+        asientos: null,
+    });
   }
 
   onCheckboxChange(event: any): void {
@@ -137,7 +180,9 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
 
   hideModal = () => {
     this.myModal.hide();
-    this.oRouter.navigate(['/admin/asiento/view/' + this.oAsiento?.id]);
+    if(this.oAsiento?.id){
+      this.oRouter.navigate(['/admin/asiento/view/' + this.oAsiento?.id]);
+    }
   }
 
   onSubmit() {
@@ -171,7 +216,7 @@ export class AsientoAdminCreateRoutedComponent implements OnInit {
       console.log('The dialog was closed');
       if (result !== undefined) {
         console.log(result);
-        this.oAsientoForm?.controls['id_tipoasiento'].setValue(result.id);
+        this.oAsientoForm?.controls['tipoasiento'].setValue(result.id);
         this.oTipoasiento = result;
       }
     });

@@ -149,6 +149,16 @@ export class AsientoService {
   }
 
   create(oAsiento: IAsiento): Observable<IAsiento> {
+    //hack
+    oAsiento.tipoasiento.asientos = [];
+    oAsiento.tipoasiento.grupotipoasientos = [];
+    
+    oAsiento.usuario.asientos = [];
+
+    oAsiento.periodo.asientos = []; 
+
+    oAsiento.apuntes = [];
+
     let URL: string = '';
     URL += this.serverURL;
     return this.oHttp.put<IAsiento>(URL, oAsiento);

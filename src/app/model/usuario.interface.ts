@@ -7,5 +7,5 @@ export interface IUsuario {
   apellido2: string;
   email: string;
   tipousuario: ITipousuario;
-  asientos: number;
+  asientos?: any;
 }
