@@ -86,7 +86,7 @@ export class CuentaService {
   create(oCuenta: ICuenta): Observable<ICuenta> {
     //hack para evitar error de tipo en el servidor
     oCuenta.tipocuenta.grupotipocuentas = [];
-    oCuenta.tipocuenta.cuentas = [];  
+    oCuenta.tipocuenta.cuentas = [];
     //----
     let URL: string = '';
     URL += this.serverURL;
@@ -94,6 +94,9 @@ export class CuentaService {
   }
 
   update(oCuenta: ICuenta): Observable<ICuenta> {
+    //hack para evitar error de tipo en el servidor
+    oCuenta.tipocuenta.grupotipocuentas = [];
+    oCuenta.tipocuenta.cuentas = [];
     let URL: string = '';
     URL += this.serverURL;
     return this.oHttp.post<ICuenta>(URL, oCuenta);

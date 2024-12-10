@@ -153,9 +153,9 @@
               <td class="text-start">{{ asiento.comentarios | trim : 30 }}</td>
               <td class="text-center">
                 @if (asiento.inventariable == 1) {
-                <i class="bi bi-check"></i>
+                <i class="bi bi-check" style="font-size: 2rem; color: green;"></i>
                 } @else{
-                <i class="bi bi-x"></i>
+                <i class="bi bi-x" style="font-size: 2rem; color: red;"></i>
                 }
               </td>
               <td class="text-center">
@@ -176,18 +176,18 @@
                 {{ asiento.periodo.anyo }} ({{ asiento.periodo.id }})
               </td>
                -->
-              <td class="text-start ps-5">
+              <td class="text-start">
                 <a [routerLink]="['/admin/tipoAsiento/view', asiento.tipoasiento.id]">
                   {{ asiento!.tipoasiento.descripcion }}
                 </a>
               </td>
-              <td class="text-start ps-5">
+              <td class="text-start">
                 <a [routerLink]="['/admin/usuario/view', asiento.usuario.id]">
                   {{ asiento!.usuario.nombre }}  
                 </a>
                 
               </td>
-              <td class="text-start ps-5">
+              <td class="text-start">
                 <a [routerLink]="['/admin/periodo/view', asiento.periodo.id]">
                   {{ asiento.periodo.descripcion}}
                 </a>

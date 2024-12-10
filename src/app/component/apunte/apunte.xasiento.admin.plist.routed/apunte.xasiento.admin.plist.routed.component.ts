@@ -37,6 +37,7 @@ export class ApunteXAsientoAdminPlistRoutedComponent implements OnInit {
 
   oAsiento: IAsiento = {} as IAsiento;
   oTotal: ISumas = {} as ISumas;
+  nDiferencia: number = 0;
 
   constructor(
     private oApunteService: ApunteService,
@@ -50,21 +51,24 @@ export class ApunteXAsientoAdminPlistRoutedComponent implements OnInit {
     });
 
     this.oActivatedRoute.params.subscribe((params) => {
-      this.oAsientoService.get(params['id']).subscribe({
-        next: (oAsiento: IAsiento) => {
-          this.oAsiento = oAsiento;
-          this.getPage();
-
+      this.oAsiento.id = params['id'];
+      //
+      this.getPage(); // carga en paralelo de 1 la página
+      //
+      this.oAsientoService.get(params['id']).subscribe({ // carga en paralelo de 2 el titulo
+        next: (oAsiento: IAsiento) => {          
+          this.oAsiento = oAsiento;         
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
         },
       });
-
-      this.oActivatedRoute.params.subscribe((params) => {
+      //
+      this.oActivatedRoute.params.subscribe((params) => { // carga en paralelo de 3 la suma
         this.oApunteService.getTotalApuntesXAsiento(params['id']).subscribe({
           next: (oSuma: ISumas) => {
             this.oTotal = oSuma;
+            this.nDiferencia = this.oTotal.totalDebe - this.oTotal.totalHaber;
             console.log(this.oTotal);
           },
           error: (err: HttpErrorResponse) => {
@@ -72,6 +76,7 @@ export class ApunteXAsientoAdminPlistRoutedComponent implements OnInit {
           },
         });
       })
+      //
     });
   }
 

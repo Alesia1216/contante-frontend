@@ -31,6 +31,7 @@ declare let bootstrap: any;
   ],
   styleUrls: ['./cuenta.admin.create.routed.component.css'],
 })
+
 export class CuentaAdminCreateRoutedComponent implements OnInit {
   id: number = 0;
   oCuentaForm: FormGroup | undefined = undefined;
